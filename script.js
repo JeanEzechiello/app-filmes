@@ -33,12 +33,19 @@ ipt.addEventListener('keydown', function(event) {
     }
 })
 
-res.addEventListener('click',function(event) {
-    if(event.target.dataset.id) {
+res.addEventListener('click', function(event) {
+    if (event.target.dataset.id) {
         let filmeFavoritado = dados.results.find(filme => filme.id == event.target.dataset.id)
-        favoritos.push(filmeFavoritado)
-         localStorage.setItem('favoritos',JSON.stringify(favoritos))
-         event.target.classList.add('Favoritado')
+
+        if (event.target.classList.contains('favoritado')) {
+            favoritos = favoritos.filter(filme => filme.id != event.target.dataset.id)
+            event.target.classList.remove('favoritado')
+        } else {
+            favoritos.push(filmeFavoritado)
+            event.target.classList.add('favoritado')
+        }
+
+        localStorage.setItem('favoritos', JSON.stringify(favoritos))
     }
 })
 
