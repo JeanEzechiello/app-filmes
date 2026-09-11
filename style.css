@@ -1,5 +1,52 @@
+* {
+    padding: 0;
+    margin: 0; 
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
+body {
+    background-color: #141414;
+    color: white;
 
+}
+
+#busca {
+    text-align: center;
+    margin-top: 5px;
+}
+
+#linha-busca {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.card-filme {
+    background-color: #1f1f1f;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+#iptfilme {
+    background-color: #1f1f1f;
+    color: white;
+    border: 1px solid #7c3aed;
+    padding: 6px 12px;
+    border-radius: 10px;
+}
+
+button {
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 10px;
+}
+
+#res {
+    margin-top: 15px;
+}
 
 
 
