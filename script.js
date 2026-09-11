@@ -40,6 +40,9 @@ res.addEventListener('click', function(event) {
             favoritos = favoritos.filter(filme => filme.id != event.target.dataset.id)
             event.target.classList.remove('favoritado')
             event.target.parentElement.remove()
+            if(favoritos.length === 0) {
+                res.innerHTML = 'Nenhum favorito ainda'
+            }
         } else {
             let filmeFavoritado = dados.results.find(filme => filme.id == event.target.dataset.id)
             favoritos.push(filmeFavoritado)
@@ -56,7 +59,10 @@ verFavoritos.addEventListener('click', function() {
 
 function mostrarFavoritos() {
     res.innerHTML = ''
-    favoritos.forEach(filme => {
+    if(favoritos.length === 0) {
+        res.innerHTML = 'Nenhum favorito ainda'
+    } else {
+        favoritos.forEach(filme => {
         res.innerHTML += `<div class = "card-filme"> 
         <img src = "https://image.tmdb.org/t/p/w200${filme.poster_path}" alt= "${filme.title}">
         <h3>${filme.title}</h3>
@@ -64,5 +70,6 @@ function mostrarFavoritos() {
         <button class="btn-favoritar favoritado" data-id="${filme.id}">★</button>
     </div>`
     })
+    }
 }
 
