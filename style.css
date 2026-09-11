@@ -28,6 +28,11 @@ body {
     border-radius: 10px;
 }
 
+.card-filme img {
+    max-width: 100%;
+    height: auto;
+}
+
 #iptfilme {
     background-color: #1f1f1f;
     color: white;
@@ -45,19 +50,11 @@ button {
 }
 
 #res {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
     margin-top: 15px;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 .btn-favoritar {
     color:black;
