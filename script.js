@@ -44,7 +44,7 @@ res.addEventListener('click', function(event) {
             if(telaAtual === 'favoritos') {
                 event.target.parentElement.remove()
                 if(favoritos.length === 0) {
-                    res.innerHTML = 'Nenhum favorito ainda'
+                    res.innerHTML = '<p class="msg-vazio">Nenhum filme favorito ainda 🎬</p>'
                 }
             }
         } else {
@@ -65,7 +65,7 @@ function mostrarFavoritos() {
     telaAtual = 'favoritos'
     res.innerHTML = ''
     if(favoritos.length === 0) {
-        res.innerHTML = 'Nenhum favorito ainda'
+        res.innerHTML = res.innerHTML = '<p class="msg-vazio">Nenhum filme favorito ainda 🎬</p>'
     } else {
         favoritos.forEach(filme => {
         res.innerHTML += `<div class = "card-filme"> 

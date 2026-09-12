@@ -66,6 +66,12 @@ button {
     margin-top: 15px;
 }
 
+.msg-vazio {
+    text-align: center;
+    grid-column: 1 / -1;
+    font-size: 20px;
+}
+
 .btn-favoritar {
     background: none;
     border: none;
