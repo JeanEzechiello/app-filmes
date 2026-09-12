@@ -4,8 +4,10 @@ let res = document.getElementById('res')
 let verFavoritos = document.getElementById('verFavoritos')
 let dados
 let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
+let telaAtual = document.getElementById('busca')
 
 async function buscarFilmes() {
+    telaAtual = 'busca'
     let url = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${ipt.value}&language=pt-BR`
 
     const resposta = await fetch(url)
@@ -39,9 +41,11 @@ res.addEventListener('click', function(event) {
         if (favoritos.some(filme => filme.id == event.target.dataset.id))  {
             favoritos = favoritos.filter(filme => filme.id != event.target.dataset.id)
             event.target.classList.remove('favoritado')
-            event.target.parentElement.remove()
-            if(favoritos.length === 0) {
-                res.innerHTML = 'Nenhum favorito ainda'
+            if(telaAtual === 'favoritos') {
+                event.target.parentElement.remove()
+                if(favoritos.length === 0) {
+                    res.innerHTML = 'Nenhum favorito ainda'
+                }
             }
         } else {
             let filmeFavoritado = dados.results.find(filme => filme.id == event.target.dataset.id)
@@ -58,6 +62,7 @@ verFavoritos.addEventListener('click', function() {
 })
 
 function mostrarFavoritos() {
+    telaAtual = 'favoritos'
     res.innerHTML = ''
     if(favoritos.length === 0) {
         res.innerHTML = 'Nenhum favorito ainda'
