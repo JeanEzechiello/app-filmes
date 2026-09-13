@@ -10,12 +10,18 @@ async function buscarFilmes() {
     telaAtual = 'busca'
     let url = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${ipt.value}&language=pt-BR`
 
+    res.innerHTML = '<div class="spinner"></div>'
+
     const resposta = await fetch(url)
     dados = await resposta.json()
 
     res.innerHTML = ''
 
-dados.results.forEach(filme => {
+    if(dados.results.length === 0 ) {
+        res.innerHTML = '<p class="msg-vazio">Nada encontrado 🔍</p>'
+
+    } else {
+        dados.results.forEach(filme => {
     res.innerHTML += `<div class = "card-filme"> 
         <img src = "https://image.tmdb.org/t/p/w200${filme.poster_path}" alt= "${filme.title}">
         <h3>${filme.title}</h3>
@@ -23,7 +29,7 @@ dados.results.forEach(filme => {
         <button class="btn-favoritar" data-id="${filme.id}">★</button>
     </div>`
 });
-
+    }
 } 
 
 button.addEventListener ('click', function(){
