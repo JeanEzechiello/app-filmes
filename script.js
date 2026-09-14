@@ -11,34 +11,39 @@ async function buscarFilmes() {
     
 
     res.innerHTML = '<div class="spinner"></div>'
+    button.disabled = true
 
     try{
         let url = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${ipt.value}&language=pt-BR`
 
         const resposta = await fetch(url)
-    dados = await resposta.json()
+        dados = await resposta.json()
 
-    res.innerHTML = ''
+        res.innerHTML = ''
 
-    if(dados.results.length === 0 ) {
-        res.innerHTML = '<p class="msg-vazio">Nada encontrado 🔍</p>'
+        if(dados.results.length === 0 ) {
+            res.innerHTML = '<p class="msg-vazio">Nada encontrado 🔍</p>'
 
-    } else {
-        dados.results.forEach(filme => {
-    res.innerHTML += `<div class = "card-filme"> 
-        <img src = "https://image.tmdb.org/t/p/w200${filme.poster_path}" alt= "${filme.title}">
-        <h3>${filme.title}</h3>
-        <p>Nota: ${filme.vote_average}</p>
-        <button class="btn-favoritar" data-id="${filme.id}">★</button>
-    </div>`
-});
-    }
+        } else {
+            dados.results.forEach(filme => {
+            res.innerHTML += `<div class = "card-filme"> 
+            <img src = "https://image.tmdb.org/t/p/w200${filme.poster_path}" alt= "${filme.title}">
+            <h3>${filme.title}</h3>
+            <p>Nota: ${filme.vote_average}</p>
+            <button class="btn-favoritar" data-id="${filme.id}">★</button>
+        </div>`
+    });
+        }
 
-    } catch(erro) {
-        res.innerHTML = '<p class="msg-vazio">Não foi possivel buscar os filmes. Verifique sua conexão e tente novamente.</p>'
-    }
+        } catch(erro) {
+            res.innerHTML = '<p class="msg-vazio">Não foi possivel buscar os filmes. Verifique sua conexão e tente novamente.</p>'
+        }
+
+        finally {
+            button.disabled = false
+        }
        
-} 
+    } 
 
 button.addEventListener ('click', function(){
     buscarFilmes()
