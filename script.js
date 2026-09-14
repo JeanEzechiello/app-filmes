@@ -8,11 +8,14 @@ let telaAtual = document.getElementById('busca')
 
 async function buscarFilmes() {
     telaAtual = 'busca'
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${ipt.value}&language=pt-BR`
+    
 
     res.innerHTML = '<div class="spinner"></div>'
 
-    const resposta = await fetch(url)
+    try{
+        let url = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${ipt.value}&language=pt-BR`
+
+        const resposta = await fetch(url)
     dados = await resposta.json()
 
     res.innerHTML = ''
@@ -30,6 +33,11 @@ async function buscarFilmes() {
     </div>`
 });
     }
+
+    } catch(erro) {
+        res.innerHTML = '<p class="msg-vazio">Não foi possivel buscar os filmes. Verifique sua conexão e tente novamente.</p>'
+    }
+       
 } 
 
 button.addEventListener ('click', function(){
