@@ -5,6 +5,8 @@ let verFavoritos = document.getElementById('verFavoritos')
 let dados
 let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
 let telaAtual = document.getElementById('busca')
+let modal = document.getElementById('modal')
+let modalConteudo = document.getElementById('modal-conteudo')
 
 async function buscarFilmes() {
     telaAtual = 'busca'
@@ -26,7 +28,7 @@ async function buscarFilmes() {
 
         } else {
             dados.results.forEach(filme => {
-            res.innerHTML += `<div class = "card-filme"> 
+            res.innerHTML += `<div class = "card-filme" data-id="${filme.id}"> 
             <img src = "https://image.tmdb.org/t/p/w200${filme.poster_path}" alt= "${filme.title}">
             <h3>${filme.title}</h3>
             <p>Nota: ${filme.vote_average}</p>
@@ -73,8 +75,26 @@ res.addEventListener('click', function(event) {
         }
 
         localStorage.setItem('favoritos', JSON.stringify(favoritos))
+    } else if (event.target.closest('.card-filme')) {
+        let card = event.target.closest('.card-filme')
+        abrirModal(card.dataset.id)
+        
     }
 })
+
+async function abrirModal(id) {
+    let url = `https://api.themoviedb.org/3/movie/${id}?api_key=3b208aeadbdf5e9fe136e90f988d0981&language=pt-BR`
+
+    const resposta = await fetch(url)
+    let detalhes = await resposta.json()
+
+    modalConteudo.innerHTML = `<h2>${detalhes.title}</h2>
+    <p>${detalhes.overview}</p>
+    <p>Lançamento: ${detalhes.release_date}</p>`
+
+    modal.style.display = 'flex'
+}
+
 
 verFavoritos.addEventListener('click', function() {
     mostrarFavoritos()
@@ -87,7 +107,7 @@ function mostrarFavoritos() {
         res.innerHTML = res.innerHTML = '<p class="msg-vazio">Nenhum filme favorito ainda 🎬</p>'
     } else {
         favoritos.forEach(filme => {
-        res.innerHTML += `<div class = "card-filme"> 
+        res.innerHTML += `<div class = "card-filme" data-id=${filme.id}"> 
         <img src = "https://image.tmdb.org/t/p/w200${filme.poster_path}" alt= "${filme.title}">
         <h3>${filme.title}</h3>
         <p>Nota: ${filme.vote_average}</p>
