@@ -7,6 +7,7 @@ let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
 let telaAtual = document.getElementById('busca')
 let modal = document.getElementById('modal')
 let modalConteudo = document.getElementById('modal-conteudo')
+let fecharModal = document.getElementById('fecharModal')
 
 async function buscarFilmes() {
     telaAtual = 'busca'
@@ -95,6 +96,9 @@ async function abrirModal(id) {
     modal.style.display = 'flex'
 }
 
+fecharModal.addEventListener('click', function(){
+    modal.style.display = 'none'
+})
 
 verFavoritos.addEventListener('click', function() {
     mostrarFavoritos()
