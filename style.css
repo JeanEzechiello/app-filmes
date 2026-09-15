@@ -95,10 +95,22 @@ button {
 }
 
 #modal-conteudo {
+    position: relative;
     background-color: #1f1f1f;
     padding: 24px;
     border-radius: 10px;
     max-width: 500px;
+}
+
+#fecharModal {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 #modal-conteudo h2 {
