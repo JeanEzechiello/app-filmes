@@ -110,6 +110,9 @@ res.addEventListener('click', function(event) {
 })
 
 async function abrirModal(id, tipo) {
+    modalConteudo.innerHTML = '<div class="spinner"></div>'
+    modal.style.display = 'flex'
+
     let url = `https://api.themoviedb.org/3/${tipo}/${id}?api_key=3b208aeadbdf5e9fe136e90f988d0981&language=pt-BR`
 
     const resposta = await fetch(url)
@@ -122,7 +125,6 @@ async function abrirModal(id, tipo) {
     <p>${detalhes.overview}</p>
     <p>Lançamento: ${lançamento}</p>`
 
-    modal.style.display = 'flex'
 }
 
 fecharModal.addEventListener('click', function(){
