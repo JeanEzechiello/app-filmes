@@ -137,6 +137,12 @@ document.addEventListener('keydown', function(event) {
     }
 })
 
+modal.addEventListener('click',function(event){
+    if(event.target === modal) {
+        modal.style.display = 'none'
+    }
+})
+
 verFavoritos.addEventListener('click', function() {
     mostrarFavoritos()
 })
