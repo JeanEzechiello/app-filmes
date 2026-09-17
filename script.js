@@ -9,6 +9,15 @@ let modal = document.getElementById('modal')
 let modalConteudo = document.getElementById('modal-conteudo')
 let fecharModal = document.getElementById('fecharModal')
 
+let timer;
+
+ipt.addEventListener('input',function(){
+    clearTimeout(timer)
+    timer = setTimeout(function() {
+        buscarFilmes()
+    }, 400);
+});
+
 async function buscarFilmes() {
     telaAtual = 'busca'
     
