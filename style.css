@@ -117,6 +117,40 @@ button {
     border-radius: 10px;
 }
 
+.recomendacoes {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+}
+
+.recomendacoes::-webkit-scrollbar {
+    height: 8px;
+}
+
+.recomendacoes::-webkit-scrollbar-track {
+    background: #1f1f1f;
+}
+
+.recomendacoes::-webkit-scrollbar-thumb {
+    background: #7c3aed;
+    border-radius: 10px;
+}
+
+.mini-card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.mini-card {
+    width: 180px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.mini-card h4 {
+    font-size: 13px;
+}
+
 #fecharModal {
     position: absolute;
     top: 12px;

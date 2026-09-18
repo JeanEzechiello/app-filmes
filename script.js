@@ -4,7 +4,7 @@ let res = document.getElementById('res')
 let verFavoritos = document.getElementById('verFavoritos')
 let dados
 let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
-let telaAtual = document.getElementById('busca')
+let telaAtual = 'busca'
 let modal = document.getElementById('modal')
 let modalConteudo = document.getElementById('modal-conteudo')
 let fecharModal = document.getElementById('fecharModal')
@@ -87,8 +87,11 @@ ipt.addEventListener('keydown', function(event) {
 
 res.addEventListener('click', function(event) {
     if (event.target.dataset.id) {
-        if (favoritos.some(filme => filme.id == event.target.dataset.id))  {
-            favoritos = favoritos.filter(filme => filme.id != event.target.dataset.id)
+        let id = event.target.dataset.id
+        let tipo = event.target.dataset.tipo
+
+        if (favoritos.some(filme => filme.id == id && filme.tipo == tipo))  {
+            favoritos = favoritos.filter(filme => !(filme.id == id && filme.tipo == tipo))
             event.target.classList.remove('favoritado')
             if(telaAtual === 'favoritos') {
                 event.target.parentElement.remove()
@@ -97,7 +100,7 @@ res.addEventListener('click', function(event) {
                 }
             }
         } else {
-            let filmeFavoritado = dados.results.find(filme => filme.id == event.target.dataset.id)
+            let filmeFavoritado = dados.results.find(filme => filme.id == id && filme.tipo == tipo)
             favoritos.push(filmeFavoritado)
             event.target.classList.add('favoritado')
         }
@@ -138,14 +141,25 @@ async function abrirModal(id, tipo) {
     <p>Lançamento: ${lançamento}</p>`
     modalConteudo.innerHTML += `<p>Elenco: ${elenco.join(', ')}</p>`
 
+    let htmlRecomendacoes = '<p>Você também pode gostar:</p><div class="recomendacoes">'
     dadosRecomendacoes.results.slice(0, 5).forEach(recomendacao => {
         let titulo = recomendacao.title || recomendacao.name
-        modalConteudo.innerHTML += `<div class = "mini-card" data-id= "${recomendacao.id}" data-tipo = "${tipo}"> 
-        <img src = "https://image.tmdb.org/t/p/w200${recomendacao.poster_path}" alt= "${titulo}">
+        htmlRecomendacoes += `<div class = "mini-card" data-id= "${recomendacao.id}" data-tipo = "${tipo}"> 
+        <img src = "https://image.tmdb.org/t/p/w300${recomendacao.backdrop_path}" alt= "${titulo}">
         <h4>${titulo}</h4>
     </div>`
-        })
+})
+    htmlRecomendacoes += '</div>'
+
+    modalConteudo.innerHTML += htmlRecomendacoes
 }
+
+modalConteudo.addEventListener('click', function(event) {
+    if(event.target.closest('.mini-card')) {
+        let card = event.target.closest('.mini-card')
+        abrirModal(card.dataset.id, card.dataset.tipo)
+    }
+})
 
 fecharModal.addEventListener('click', function(){
     modal.style.display = 'none'
@@ -171,7 +185,7 @@ function mostrarFavoritos() {
     telaAtual = 'favoritos'
     res.innerHTML = ''
     if(favoritos.length === 0) {
-        res.innerHTML = res.innerHTML = '<p class="msg-vazio">Nenhum filme favorito ainda 🎬</p>'
+        res.innerHTML = '<p class="msg-vazio">Nenhum filme favorito ainda 🎬</p>'
     } else {
         favoritos.forEach(filme => {
         let titulo = filme.title || filme.name
@@ -184,4 +198,3 @@ function mostrarFavoritos() {
     })
     }
 }
-
