@@ -118,12 +118,20 @@ async function abrirModal(id, tipo) {
     const resposta = await fetch(url)
     let detalhes = await resposta.json()
 
+    let urlElenco = `https://api.themoviedb.org/3/${tipo}/${id}/credits?api_key=3b208aeadbdf5e9fe136e90f988d0981&language=pt-BR`
+
+    let respostaElenco = await fetch(urlElenco)
+    let dadosElenco = await respostaElenco.json()
+
+    let elenco = dadosElenco.cast.slice(0, 5).map(ator => ator.name)
+
     let titulo = detalhes.title || detalhes.name
     let lançamento = detalhes.release_date || detalhes.first_air_date
 
     modalConteudo.innerHTML = `<h2>${titulo}</h2>
     <p>${detalhes.overview}</p>
     <p>Lançamento: ${lançamento}</p>`
+    modalConteudo.innerHTML += `<p>Elenco: ${elenco.join(', ')}</p>`
 
 }
 
