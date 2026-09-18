@@ -123,6 +123,11 @@ async function abrirModal(id, tipo) {
     let respostaElenco = await fetch(urlElenco)
     let dadosElenco = await respostaElenco.json()
 
+    let urlRecomendacoes = `https://api.themoviedb.org/3/${tipo}/${id}/recommendations?api_key=3b208aeadbdf5e9fe136e90f988d0981&language=pt-BR`
+
+    let respostaRecomendacoes = await fetch(urlRecomendacoes)
+    let dadosRecomendacoes = await respostaRecomendacoes.json()
+
     let elenco = dadosElenco.cast.slice(0, 5).map(ator => ator.name)
 
     let titulo = detalhes.title || detalhes.name
@@ -133,6 +138,13 @@ async function abrirModal(id, tipo) {
     <p>Lançamento: ${lançamento}</p>`
     modalConteudo.innerHTML += `<p>Elenco: ${elenco.join(', ')}</p>`
 
+    dadosRecomendacoes.results.slice(0, 5).forEach(recomendacao => {
+        let titulo = recomendacao.title || recomendacao.name
+        modalConteudo.innerHTML += `<div class = "mini-card" data-id= "${recomendacao.id}" data-tipo = "${tipo}"> 
+        <img src = "https://image.tmdb.org/t/p/w200${recomendacao.poster_path}" alt= "${titulo}">
+        <h4>${titulo}</h4>
+    </div>`
+        })
 }
 
 fecharModal.addEventListener('click', function(){

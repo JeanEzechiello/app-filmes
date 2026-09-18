@@ -100,6 +100,21 @@ button {
     padding: 24px;
     border-radius: 10px;
     max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+#modal-conteudo::-webkit-scrollbar {
+    width: 8px;
+}
+
+#modal-conteudo::-webkit-scrollbar-track {
+    background: #1f1f1f;
+}
+
+#modal-conteudo::-webkit-scrollbar-thumb {
+    background: #7c3aed;
+    border-radius: 10px;
 }
 
 #fecharModal {
