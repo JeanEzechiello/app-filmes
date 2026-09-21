@@ -7,6 +7,7 @@ let verFavoritos = document.getElementById('verFavoritos')
 let dados
 let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
 let telaAtual = 'busca'
+let paginacao = document.getElementById('paginacao')
 let paginaAtual = 1
 let modal = document.getElementById('modal')
 let modalConteudo = document.getElementById('modal-conteudo')
@@ -199,6 +200,7 @@ function renderizarResultados(resultado) {
 
         if(resultado.results.length === 0 ) {
             res.innerHTML = '<p class="msg-vazio">Nada encontrado 🔍</p>'
+            paginacao.style.display = 'none'
 
         } else {
             resultado.results.forEach(filme => {
@@ -210,6 +212,7 @@ function renderizarResultados(resultado) {
             <button class="btn-favoritar" data-id="${filme.id}" data-tipo = "${filme.tipo}">★</button>
         </div>`
     });
+    paginacao.style.display = 'flex'
         }
 }
 
