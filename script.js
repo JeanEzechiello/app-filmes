@@ -1,5 +1,7 @@
 let ipt = document.getElementById('iptfilme')
 let button = document.getElementById('searchbutton')
+let btnAnt = document.getElementById('ant')
+let btnProx = document.getElementById('prox')
 let res = document.getElementById('res')
 let verFavoritos = document.getElementById('verFavoritos')
 let dados
@@ -32,22 +34,7 @@ async function buscarFilmes() {
         dados = await buscarPagina(ipt.value, paginaAtual)
         totalPaginas = dados.totalPaginas
 
-        res.innerHTML = ''
-
-        if(dados.results.length === 0 ) {
-            res.innerHTML = '<p class="msg-vazio">Nada encontrado 🔍</p>'
-
-        } else {
-            dados.results.forEach(filme => {
-            let titulo = filme.title || filme.name
-            res.innerHTML += `<div class = "card-filme" data-tipo="${filme.tipo}" data-id = "${filme.id}"> 
-            <img src = "https://image.tmdb.org/t/p/w200${filme.poster_path}" alt= "${titulo}">
-            <h3>${titulo}</h3>
-            <p>Nota: ${filme.vote_average}</p>
-            <button class="btn-favoritar" data-id="${filme.id}" data-tipo = "${filme.tipo}">★</button>
-        </div>`
-    });
-        }
+        renderizarResultados(dados)
 
         } catch(erro) {
             res.innerHTML = '<p class="msg-vazio">Não foi possivel buscar os filmes. Verifique sua conexão e tente novamente.</p>'
@@ -206,3 +193,39 @@ async function buscarPagina(termo, pagina) {
 
         return {results: filmesComTipo.concat(seriesComTipo), totalPaginas: Math.max(dadosFilmes.total_pages, dadosSeries.total_pages) }
 }
+
+function renderizarResultados(resultado) {
+    res.innerHTML = ''
+
+        if(resultado.results.length === 0 ) {
+            res.innerHTML = '<p class="msg-vazio">Nada encontrado 🔍</p>'
+
+        } else {
+            resultado.results.forEach(filme => {
+            let titulo = filme.title || filme.name
+            res.innerHTML += `<div class = "card-filme" data-tipo="${filme.tipo}" data-id = "${filme.id}"> 
+            <img src = "https://image.tmdb.org/t/p/w200${filme.poster_path}" alt= "${titulo}">
+            <h3>${titulo}</h3>
+            <p>Nota: ${filme.vote_average}</p>
+            <button class="btn-favoritar" data-id="${filme.id}" data-tipo = "${filme.tipo}">★</button>
+        </div>`
+    });
+        }
+}
+
+async function mudarPagina(lado) {
+    paginaAtual = paginaAtual + lado
+
+    dados = await buscarPagina(ipt.value, paginaAtual)
+        totalPaginas = dados.totalPaginas
+
+        renderizarResultados(dados)
+}
+
+btnProx.addEventListener('click', function() {
+    mudarPagina(1)
+})
+
+btnAnt.addEventListener('click', function() {
+    mudarPagina(-1)
+})
