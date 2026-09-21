@@ -5,9 +5,11 @@ let verFavoritos = document.getElementById('verFavoritos')
 let dados
 let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
 let telaAtual = 'busca'
+let paginaAtual = 1
 let modal = document.getElementById('modal')
 let modalConteudo = document.getElementById('modal-conteudo')
 let fecharModal = document.getElementById('fecharModal')
+let totalPaginas;
 
 let timer;
 
@@ -20,33 +22,15 @@ ipt.addEventListener('input',function(){
 
 async function buscarFilmes() {
     telaAtual = 'busca'
+    paginaAtual = 1
     
 
     res.innerHTML = '<div class="spinner"></div>'
     button.disabled = true
 
     try{
-        let urlFilmes = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${ipt.value}&language=pt-BR`
-
-        let respostaFilmes = await fetch(urlFilmes)
-        let dadosFilmes = await respostaFilmes.json()
-
-        let urlSeries = `https://api.themoviedb.org/3/search/tv?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${ipt.value}&language=pt-BR`
-
-        let respostaSeries = await fetch(urlSeries)
-        let dadosSeries = await respostaSeries.json()
-
-        let filmesComTipo = dadosFilmes.results.map(function(filme) {
-            filme.tipo = 'movie'
-            return filme
-        })
-
-        let seriesComTipo = dadosSeries.results.map(function(serie) {
-            serie.tipo = 'tv'
-            return serie
-        })
-
-        dados = {results: filmesComTipo.concat(seriesComTipo) }
+        dados = await buscarPagina(ipt.value, paginaAtual)
+        totalPaginas = dados.totalPaginas
 
         res.innerHTML = ''
 
@@ -197,4 +181,28 @@ function mostrarFavoritos() {
     </div>`
     })
     }
+}
+
+async function buscarPagina(termo, pagina) {
+    let urlFilmes = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${termo}&page=${pagina}&language=pt-BR`
+
+        let respostaFilmes = await fetch(urlFilmes)
+        let dadosFilmes = await respostaFilmes.json()
+
+        let urlSeries = `https://api.themoviedb.org/3/search/tv?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${termo}&page=${pagina}&language=pt-BR`
+
+        let respostaSeries = await fetch(urlSeries)
+        let dadosSeries = await respostaSeries.json()
+
+        let filmesComTipo = dadosFilmes.results.map(function(filme) {
+            filme.tipo = 'movie'
+            return filme
+        })
+
+        let seriesComTipo = dadosSeries.results.map(function(serie) {
+            serie.tipo = 'tv'
+            return serie
+        })
+
+        return {results: filmesComTipo.concat(seriesComTipo), totalPaginas: Math.max(dadosFilmes.total_pages, dadosSeries.total_pages) }
 }
