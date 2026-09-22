@@ -36,6 +36,7 @@ async function buscarFilmes() {
         totalPaginas = dados.totalPaginas
 
         renderizarResultados(dados)
+        atualizarBotoes()
 
         } catch(erro) {
             res.innerHTML = '<p class="msg-vazio">Não foi possivel buscar os filmes. Verifique sua conexão e tente novamente.</p>'
@@ -223,6 +224,7 @@ async function mudarPagina(lado) {
         totalPaginas = dados.totalPaginas
 
         renderizarResultados(dados)
+        atualizarBotoes()
 }
 
 btnProx.addEventListener('click', function() {
@@ -232,3 +234,8 @@ btnProx.addEventListener('click', function() {
 btnAnt.addEventListener('click', function() {
     mudarPagina(-1)
 })
+
+function atualizarBotoes() {
+    btnAnt.disabled = (paginaAtual === 1)
+    btnProx.disabled = (paginaAtual === totalPaginas)
+}
