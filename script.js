@@ -3,6 +3,7 @@ let button = document.getElementById('searchbutton')
 let btnAnt = document.getElementById('ant')
 let btnProx = document.getElementById('prox')
 let res = document.getElementById('res')
+let selectgen = document.getElementById('genero')
 let verFavoritos = document.getElementById('verFavoritos')
 let dados
 let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
@@ -15,6 +16,8 @@ let fecharModal = document.getElementById('fecharModal')
 let totalPaginas;
 
 let timer;
+
+carregarGeneros()
 
 ipt.addEventListener('input',function(){
     clearTimeout(timer)
@@ -238,4 +241,16 @@ btnAnt.addEventListener('click', function() {
 function atualizarBotoes() {
     btnAnt.disabled = (paginaAtual === 1)
     btnProx.disabled = (paginaAtual === totalPaginas)
+}
+
+async function carregarGeneros() {
+    let urlGen = `https://api.themoviedb.org/3/genre/movie/list?api_key=3b208aeadbdf5e9fe136e90f988d0981&language=pt-BR`
+
+    let respostaGen = await fetch(urlGen)
+    let dadosGen = await respostaGen.json()
+    console.log(dadosGen)
+
+    dadosGen.genres.forEach(genero => {
+        selectgen.innerHTML += `<option value = "${genero.id}">${genero.name}</option>`
+    })
 }
