@@ -33,11 +33,6 @@ body {
     margin-top: 5px;
 }
 
-#linha-busca {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-}
 
 .card-filme {
     background-color: #1f1f1f;
@@ -60,13 +55,6 @@ body {
     font-weight: 600;
 }
 
-#iptfilme {
-    background-color: #1f1f1f;
-    color: white;
-    border: 1px solid #7c3aed;
-    padding: 6px 12px;
-    border-radius: 10px;
-}
 
 button {
     background-color: #7c3aed;
@@ -204,4 +192,59 @@ button {
 
 #prox {
     cursor: pointer;
+}
+
+#linha-busca {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#iptfilme {
+    background-color: #1f1f1f;
+    color: white;
+    border: 1px solid #7c3aed;
+    padding: 6px 12px;
+    border-radius: 10px;
+    flex: 1 1 220px;
+    min-width: 180px;
+    max-width: 400px;
+}
+
+#genero, #ano {
+    background-color: #1f1f1f;
+    color: white;
+    border: 1px solid #7c3aed;
+    padding: 8px 36px 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 0 1 150px;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%237c3aed' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#genero:hover, #ano:hover {
+    border-color: #a855f7;
+}
+
+#genero:focus, #ano:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+}
+
+#genero option, #ano option {
+    background-color: #1f1f1f;
+    color: white;
 }

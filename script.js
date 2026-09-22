@@ -3,7 +3,8 @@ let button = document.getElementById('searchbutton')
 let btnAnt = document.getElementById('ant')
 let btnProx = document.getElementById('prox')
 let res = document.getElementById('res')
-let selectgen = document.getElementById('genero')
+let selectGen = document.getElementById('genero')
+let selectAno = document.getElementById('ano')
 let verFavoritos = document.getElementById('verFavoritos')
 let dados
 let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
@@ -18,6 +19,7 @@ let totalPaginas;
 let timer;
 
 carregarGeneros()
+carregarAnos()
 
 ipt.addEventListener('input',function(){
     clearTimeout(timer)
@@ -251,6 +253,12 @@ async function carregarGeneros() {
     console.log(dadosGen)
 
     dadosGen.genres.forEach(genero => {
-        selectgen.innerHTML += `<option value = "${genero.id}">${genero.name}</option>`
+        selectGen.innerHTML += `<option value = "${genero.id}">${genero.name}</option>`
     })
+}
+
+function carregarAnos() {
+    for(let i = 2026; i >= 1900; i--) {
+        selectAno.innerHTML += `<option value = ${i} >${i}</option>`
+    }
 }
