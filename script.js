@@ -64,15 +64,16 @@ ipt.addEventListener('keydown', function(event) {
 })
 
 res.addEventListener('click', function(event) {
-    if (event.target.dataset.id) {
-        let id = event.target.dataset.id
-        let tipo = event.target.dataset.tipo
+    if (event.target.closest('.btn-favoritar')) {
+        let btn = event.target.closest('.btn-favoritar')
+        let id = btn.dataset.id
+        let tipo = btn.dataset.tipo
 
         if (favoritos.some(filme => filme.id == id && filme.tipo == tipo))  {
             favoritos = favoritos.filter(filme => !(filme.id == id && filme.tipo == tipo))
-            event.target.classList.remove('favoritado')
+            btn.classList.remove('favoritado')
             if(telaAtual === 'favoritos') {
-                event.target.parentElement.remove()
+                btn.parentElement.remove()
                 if(favoritos.length === 0) {
                     res.innerHTML = '<p class="msg-vazio">Nenhum filme favorito ainda 🎬</p>'
                 }
@@ -80,7 +81,7 @@ res.addEventListener('click', function(event) {
         } else {
             let filmeFavoritado = dados.results.find(filme => filme.id == id && filme.tipo == tipo)
             favoritos.push(filmeFavoritado)
-            event.target.classList.add('favoritado')
+            btn.classList.add('favoritado')
         }
 
         localStorage.setItem('favoritos', JSON.stringify(favoritos))
@@ -178,12 +179,12 @@ function mostrarFavoritos() {
 }
 
 async function buscarPagina(termo, pagina) {
-    let urlFilmes = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${termo}&page=${pagina}&language=pt-BR`
+    let urlFilmes = `https://api.themoviedb.org/3/search/movie?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${termo}&page=${pagina}&primary_release_year=${selectAno.value}&language=pt-BR`
 
         let respostaFilmes = await fetch(urlFilmes)
         let dadosFilmes = await respostaFilmes.json()
 
-        let urlSeries = `https://api.themoviedb.org/3/search/tv?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${termo}&page=${pagina}&language=pt-BR`
+        let urlSeries = `https://api.themoviedb.org/3/search/tv?api_key=3b208aeadbdf5e9fe136e90f988d0981&query=${termo}&page=${pagina}&first_air_date_year=${selectAno.value}&language=pt-BR`
 
         let respostaSeries = await fetch(urlSeries)
         let dadosSeries = await respostaSeries.json()
@@ -258,7 +259,16 @@ async function carregarGeneros() {
 }
 
 function carregarAnos() {
+    selectAno.innerHTML += `<option value= "">Todos os anos</option>`
     for(let i = 2026; i >= 1900; i--) {
         selectAno.innerHTML += `<option value = ${i} >${i}</option>`
     }
 }
+
+selectGen.addEventListener('change', () => {
+    buscarFilmes()
+})
+
+selectAno.addEventListener('change', () => {
+    buscarFilmes()
+})
