@@ -251,10 +251,18 @@ async function carregarGeneros() {
 
     let respostaGen = await fetch(urlGen)
     let dadosGen = await respostaGen.json()
-    console.log(dadosGen)
+
+    let urlGenTv = `https://api.themoviedb.org/3/genre/tv/list?api_key=3b208aeadbdf5e9fe136e90f988d0981&language=pt-BR`
+
+    let resGenTv = await fetch(urlGenTv)
+    let dadosGenTV = await resGenTv.json()
 
     dadosGen.genres.forEach(genero => {
-        selectGen.innerHTML += `<option value = "${genero.id}">${genero.name}</option>`
+        selectGen.innerHTML += `<option data-tipo="movie" value = "${genero.id}">${genero.name}</option>`
+    })
+
+    dadosGenTV.genres.forEach(genero => {
+        selectGen.innerHTML += `<option data-tipo="tv" value= "${genero.id}">${genero.name}</option>`
     })
 }
 
