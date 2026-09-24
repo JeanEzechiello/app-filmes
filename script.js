@@ -270,7 +270,7 @@ async function carregarGeneros() {
     let resGenTv = await fetch(urlGenTv)
     let dadosGenTV = await resGenTv.json()
 
-
+    selectGen.innerHTML += `<option value= "">Todos os gêneros</option>`
 
     dadosGen.genres.forEach(genero => {
         selectGen.innerHTML += `<option data-tipo="movie" value = "${genero.id}">${genero.name}</option>`
