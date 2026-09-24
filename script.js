@@ -199,7 +199,20 @@ async function buscarPagina(termo, pagina) {
             return serie
         })
 
-        return {results: filmesComTipo.concat(seriesComTipo), totalPaginas: Math.max(dadosFilmes.total_pages, dadosSeries.total_pages) }
+        let todosResultados = filmesComTipo.concat(seriesComTipo)
+        let resultadosFinais = todosResultados
+
+    if (selectGen.value !== '') {
+        let generoId = Number(selectGen.value)
+        let generoTipo = selectGen.options[selectGen.selectedIndex].dataset.tipo
+
+        resultadosFinais = todosResultados.filter(function(item){
+            return item.tipo === generoTipo && item.genre_ids.includes(generoId)
+        })
+    }
+        
+        return {results: resultadosFinais , totalPaginas: Math.max(dadosFilmes.total_pages, dadosSeries.total_pages) }
+
 }
 
 function renderizarResultados(resultado) {
@@ -256,6 +269,8 @@ async function carregarGeneros() {
 
     let resGenTv = await fetch(urlGenTv)
     let dadosGenTV = await resGenTv.json()
+
+
 
     dadosGen.genres.forEach(genero => {
         selectGen.innerHTML += `<option data-tipo="movie" value = "${genero.id}">${genero.name}</option>`
