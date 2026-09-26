@@ -237,13 +237,26 @@ function renderizarResultados(resultado) {
 }
 
 async function mudarPagina(lado) {
-    paginaAtual = paginaAtual + lado
+
+    btnAnt.disabled = true
+    btnProx.disabled = true
+
+try {
+     paginaAtual = paginaAtual + lado
 
     dados = await buscarPagina(ipt.value, paginaAtual)
         totalPaginas = dados.totalPaginas
 
         renderizarResultados(dados)
-        atualizarBotoes()
+
+} catch(error) {
+    res.innerHTML = '<p class="msg-vazio">Não foi possivel buscar os filmes. Verifique sua conexão e tente novamente.</p>'
+    paginaAtual = paginaAtual - lado
+}
+
+   finally{
+    atualizarBotoes()
+   }
 }
 
 btnProx.addEventListener('click', function() {
