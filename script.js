@@ -14,6 +14,7 @@ let paginaAtual = 1
 let modal = document.getElementById('modal')
 let modalConteudo = document.getElementById('modal-conteudo')
 let fecharModal = document.getElementById('fecharModal')
+let carregandoModal = false
 let totalPaginas;
 
 let timer;
@@ -87,11 +88,14 @@ res.addEventListener('click', function(event) {
         localStorage.setItem('favoritos', JSON.stringify(favoritos))
     } else if (event.target.closest('.card-filme')) {
         let card = event.target.closest('.card-filme')
-        abrirModal(card.dataset.id, card.dataset.tipo)
+        if(!carregandoModal) {
+            abrirModal(card.dataset.id, card.dataset.tipo)
+        }
     }
 })
 
 async function abrirModal(id, tipo) {
+    carregandoModal = true
     modalConteudo.innerHTML = '<div class="spinner"></div>'
     modal.style.display = 'flex'
     try{
@@ -135,12 +139,19 @@ async function abrirModal(id, tipo) {
     }catch(erro) {
          modalConteudo.innerHTML = '<p class="msg-vazio">Não foi possível carregar os detalhes. Tente novamente.</p>'
     }
+
+    finally {
+        carregandoModal = false
+    }
 }
 
 modalConteudo.addEventListener('click', function(event) {
     if(event.target.closest('.mini-card')) {
         let card = event.target.closest('.mini-card')
-        abrirModal(card.dataset.id, card.dataset.tipo)
+        
+        if (!carregandoModal) {
+            abrirModal(card.dataset.id, card.dataset.tipo)
+        }
     }
 })
 
