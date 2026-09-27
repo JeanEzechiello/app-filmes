@@ -94,7 +94,7 @@ res.addEventListener('click', function(event) {
 async function abrirModal(id, tipo) {
     modalConteudo.innerHTML = '<div class="spinner"></div>'
     modal.style.display = 'flex'
-
+    try{
     let url = `https://api.themoviedb.org/3/${tipo}/${id}?api_key=3b208aeadbdf5e9fe136e90f988d0981&language=pt-BR`
 
     const resposta = await fetch(url)
@@ -131,6 +131,10 @@ async function abrirModal(id, tipo) {
     htmlRecomendacoes += '</div>'
 
     modalConteudo.innerHTML += htmlRecomendacoes
+
+    }catch(erro) {
+         modalConteudo.innerHTML = '<p class="msg-vazio">Não foi possível carregar os detalhes. Tente novamente.</p>'
+    }
 }
 
 modalConteudo.addEventListener('click', function(event) {
